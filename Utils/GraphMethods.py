@@ -60,7 +60,7 @@ def draw_graph_equation_system(equation_system: EquationSystem):
         X2_grid, Y2_grid, Z2_grid, [0]
     )
 
-    plt.show()
+    plt.savefig('graph')
 
 
 def get_linspace_equation(equation_type: int):
@@ -94,4 +94,4 @@ def draw_graph_equation(equation: Equation):
     plt.xticks(np.arange(min(X), max(X) + 1, 1.0))
     axes.plot(X, F(X))
 
-    plt.show()
+    plt.savefig('graph')
