@@ -2,6 +2,7 @@ from Model.Answer import Answer
 from Model.Equation import Equation, equation_type_arr
 from Model.EquationSystem import EquationSystem, equation_system_type_arr
 from Utils.Exceptions import exceptions_arr
+from Utils.GraphMethods import draw_graph_equation, draw_graph_equation_system
 
 equation_solution_type_arr = [
     'Метод секущих',
@@ -35,6 +36,8 @@ def read_problem_equation() -> Equation:
     except ValueError:
         print('Ошибка: ', exceptions_arr['ValueError'])
         exit(1)
+
+    draw_graph_equation(equation.equation_type)
 
     # Выбор метода вычислений
     print('Доступные методы вычислений: ')
@@ -147,6 +150,8 @@ def read_problem_equation_system() -> EquationSystem:
             print('Ошибка: ', exceptions_arr['ValueError'])
             exit(1)
 
+    draw_graph_equation_system(equation_system.equation_types)
+
     # Выбор метода вычислений
     print('Доступные методы вычислений: ')
     for i in range(len(equation_system_solution_type_arr)):
@@ -214,7 +219,7 @@ def read_problem_equation_system() -> EquationSystem:
 
 
 #Вывод результатов
-def print_results(answer: Answer):
+def print_results(answers: list[Answer]):
     write_line = print
 
     def close_file():
@@ -232,10 +237,11 @@ def print_results(answer: Answer):
         print('Ошибка: ', exceptions_arr['WrongLimitsArgument'])
         exit(1)
 
-    if answer.can_converge:
-        write_line('Вычисленный корень: (' + str(answer.x) + ';' + str(answer.y) + ')\n')
-        write_line('Затраченное количество итераций: ' + str(answer.iteration_amount) + '\n')
-    else:
-        write_line(answer.error_message + '\n')
+    for answer in answers:
+        if answer.can_converge:
+            write_line('Вычисленный корень: (' + str(answer.x) + ';' + str(answer.y) + ')\n')
+            write_line('Затраченное количество итераций: ' + str(answer.iteration_amount) + '\n')
+        else:
+            write_line(answer.error_message + '\n')
 
     close_file()
